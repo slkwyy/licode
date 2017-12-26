@@ -118,17 +118,11 @@ install_libnice(){
   sudo yum install glib2 glib2-devel
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
-    if [ ! -f ./libnice-0.1.4.tar.gz ]; then
-      curl -OL https://nice.freedesktop.org/releases/libnice-0.1.4.tar.gz
-      tar -zxvf libnice-0.1.4.tar.gz
-      cd libnice-0.1.4
-      patch -R ./agent/conncheck.c < $PATHNAME/libnice-014.patch0
-      ./configure --prefix=$PREFIX_DIR
-      make $FAST_MAKE -s V=0
-      make install
-    else
-      echo "libnice already installed"
-    fi
+    git clone https://github.com/slkwyy/libnice-0.1.4.git
+    cd libnice-0.1.4
+    ./configure --prefix=$PREFIX_DIR
+    make $FAST_MAKE -s V=0
+    make install
     cd $CURRENT_DIR
   else
     mkdir -p $LIB_DIR
@@ -296,8 +290,7 @@ install_log4cxx10(){
   install_aprutil
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
-    curl -OL http://mirrors.tuna.tsinghua.edu.cn/apache/logging/log4cxx/0.10.0/apache-log4cxx-0.10.0.tar.gz
-    tar -zxvf apache-log4cxx-0.10.0.tar.gz
+    git clone https://github.com/slkwyy/apache-log4cxx-0.10.0.git
     cd apache-log4cxx-0.10.0
     ./configure --prefix=$PREFIX_DIR --with-apr=$PREFIX_DIR --with-apr-util=$PREFIX_DIR
     make && make install
