@@ -214,7 +214,7 @@ install_libsrtp(){
   fi
 }
 
-install_boost{
+install_boost(){
   sudo yum install gcc-c++ python-devel
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
@@ -230,7 +230,7 @@ install_boost{
   fi
 }
 
-install_nasm{
+install_nasm(){
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
     wget http://www.nasm.us/pub/nasm/releasebuilds/2.13.02/nasm-2.13.02.tar.gz
@@ -245,7 +245,7 @@ install_nasm{
   fi
 }
 
-install_x264{
+install_x264(){
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
     curl -OL ftp://ftp.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20171225-2245.tar.bz2
@@ -260,7 +260,7 @@ install_x264{
   fi
 }
 
-install_apr{
+install_apr(){
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
     curl -OL http://mirrors.hust.edu.cn/apache//apr/apr-1.6.3.tar.gz
@@ -275,7 +275,7 @@ install_apr{
   fi
 }
 
-install_aprutil{
+install_aprutil(){
   install_apr
   sudo yum install expat expat-devel
   if [ -d $LIB_DIR ]; then
@@ -292,7 +292,7 @@ install_aprutil{
   fi
 }
 
-install_log4cxx10{
+install_log4cxx10(){
   install_aprutil
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
@@ -308,7 +308,7 @@ install_log4cxx10{
   fi
 }
 
-install_rabbitmq{
+install_rabbitmq(){
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
     wget http://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm
@@ -324,7 +324,7 @@ install_rabbitmq{
   fi
 }
 
-install_mongodb{
+install_mongodb(){
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
     git clone https://github.com/slkwyy/centos_repo.git
