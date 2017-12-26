@@ -118,7 +118,7 @@ install_libnice(){
   sudo yum install glib2 glib2-devel
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
-    rm -rf ./libnice-0.1.4*
+    rm -rf libnice-0.1.4*
     git clone https://github.com/slkwyy/libnice-0.1.4.git
     cd libnice-0.1.4
     ./configure --prefix=$PREFIX_DIR
@@ -197,7 +197,7 @@ install_mediadeps_nogpl(){
 install_libsrtp(){
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
-    rm -rf ./libsrtp-2.1.0*
+    rm -rf libsrtp-2.1.0*
     curl -o libsrtp-2.1.0.tar.gz https://codeload.github.com/cisco/libsrtp/tar.gz/v2.1.0
     tar -zxvf libsrtp-2.1.0.tar.gz
     cd libsrtp-2.1.0
@@ -214,7 +214,7 @@ install_boost(){
   sudo yum install gcc-c++ python-devel
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
-    rm -rf ./boost*
+    rm -rf boost*
     git config --global core.autocrlf input
     git clone --recursive https://github.com/boostorg/boost.git
     cd boost
@@ -230,7 +230,7 @@ install_boost(){
 install_nasm(){
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
-    rm -rf ./nasm-2.13.02*
+    rm -rf nasm-2.13.02*
     wget http://www.nasm.us/pub/nasm/releasebuilds/2.13.02/nasm-2.13.02.tar.gz
     tar -zxvf nasm-2.13.02.tar.gz
     cd nasm-2.13.02
@@ -246,7 +246,7 @@ install_nasm(){
 install_x264(){
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
-    rm -rf ./x264-snapshot*
+    rm -rf x264-snapshot*
     curl -OL ftp://ftp.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20171225-2245.tar.bz2
     tar -xjf ./x264-snapshot-20171225-2245.tar.bz2
     cd x264-snapshot-20171225-2245
@@ -262,7 +262,7 @@ install_x264(){
 install_apr(){
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
-    rm -rf ./apr-1.6.3*
+    rm -rf apr-1.6.3*
     curl -OL http://mirrors.hust.edu.cn/apache//apr/apr-1.6.3.tar.gz
     tar -zxvf apr-1.6.3.tar.gz
     cd apr-1.6.3
@@ -348,8 +348,8 @@ cleanup(){
     rm -r v11*
     rm -r openssl*
     rm -r opus*
-    rm -r nasm*
     rm -r x264*
+    rm -r nasm*
     rm -r apache-log4cxx*
     rm -r apr-util*
     rm -r apr*
