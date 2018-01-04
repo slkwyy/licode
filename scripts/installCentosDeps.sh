@@ -25,7 +25,7 @@ parse_arguments(){
         CLEANUP=true
         ;;
       "--fast")
-        FAST_MAKE='-j8'
+        FAST_MAKE='-j4'
         ;;
     esac
     shift
@@ -73,6 +73,7 @@ install_yum_deps(){
   npm install webpack gulp gulp-eslint@3 run-sequence webpack-stream google-closure-compiler-js del gulp-sourcemaps script-loader expose-loader
   sudo yum install git make python-devel cmake
   sudo yum install curl wget
+  sudo yum install boost boost-devel
   install_gcc5_gplusplus5
   install_rabbitmq
   install_mongodb
@@ -115,6 +116,7 @@ install_openssl(){
 }
 
 install_libnice(){
+  sudo yum install libtool
   sudo yum install pkgconfig
   sudo yum install glib2 glib2-devel
   if [ -d $LIB_DIR ]; then
@@ -350,7 +352,6 @@ cleanup(){
     cd $LIB_DIR
     rm -r libnice*
     rm -r libsrtp*
-    rm -r boost*
     rm -r libav*
     rm -r v11*
     rm -r openssl*
@@ -376,7 +377,6 @@ check_proxy
 install_openssl
 install_libnice
 install_libsrtp
-install_boost
 install_log4cxx10
 
 install_opus
