@@ -25,7 +25,7 @@ parse_arguments(){
         CLEANUP=true
         ;;
       "--fast")
-        FAST_MAKE='-j4'
+        FAST_MAKE='-j8'
         ;;
     esac
     shift
@@ -71,8 +71,9 @@ install_yum_deps(){
   npm install
   npm install -g node-gyp gulp-cli
   npm install webpack gulp gulp-eslint@3 run-sequence webpack-stream google-closure-compiler-js del gulp-sourcemaps script-loader expose-loader
-  sudo yum install git make gcc gcc-c++ python-devel cmake
+  sudo yum install git make python-devel cmake
   sudo yum install curl wget
+  install_gcc5_gplusplus5
   install_rabbitmq
   install_mongodb
   sudo chown -R `whoami` ~/.npm ~/tmp/ || true
@@ -211,7 +212,7 @@ install_libsrtp(){
 }
 
 install_boost(){
-  sudo yum install gcc-c++ python-devel
+  sudo yum install python-devel
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
     rm -rf boost*
@@ -336,6 +337,12 @@ install_mongodb(){
     mkdir -p $LIB_DIR
     install_mongodb
   fi
+}
+
+install_gcc5_gplusplus5(){
+  yum install centos-release-scl-rh
+  yum install devtoolset-4-gcc devtoolset-4-gcc-c++
+  source /opt/rh/devtoolset-4/enable
 }
 
 cleanup(){
