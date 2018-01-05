@@ -125,7 +125,7 @@ install_libnice(){
     git clone https://github.com/slkwyy/libnice-0.1.4.git
     cd libnice-0.1.4
     patch -R ./agent/conncheck.c < $PATHNAME/libnice-014.patch0
-    ./configure --prefix=$PREFIX_DIR
+    ./configure --prefix=$PREFIX_DIR --enable-gtk-doc --enable-gtk-doc-html --enable-gtk-doc-pdf
     make $FAST_MAKE -s V=0
     make install
     cd $CURRENT_DIR
