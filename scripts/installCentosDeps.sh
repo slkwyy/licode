@@ -134,6 +134,30 @@ install_libnice(){
   fi
 }
 
+install_libnice2(){
+  sudo yum install libtool
+  sudo yum install pkgconfig
+  sudo yum install glib2 glib2-devel
+  if [ -d $LIB_DIR ]; then
+    cd $LIB_DIR
+    if [ ! -f ./libnice-0.1.4.tar.gz ]; then
+      curl -OL https://nice.freedesktop.org/releases/libnice-0.1.4.tar.gz
+      tar -zxvf libnice-0.1.4.tar.gz
+      cd libnice-0.1.4
+      patch -R ./agent/conncheck.c < $PATHNAME/libnice-014.patch0
+      ./configure --prefix=$PREFIX_DIR
+      make $FAST_MAKE -s V=0
+      make install
+    else
+      echo "libnice already installed"
+    fi
+    cd $CURRENT_DIR
+  else
+    mkdir -p $LIB_DIR
+    install_libnice
+  fi
+}
+
 install_opus(){
   [ -d $LIB_DIR ] || mkdir -p $LIB_DIR
   cd $LIB_DIR
@@ -375,7 +399,7 @@ mkdir -p $PREFIX_DIR
 install_yum_deps
 check_proxy
 install_openssl
-install_libnice
+install_libnice2
 install_libsrtp
 install_log4cxx10
 
