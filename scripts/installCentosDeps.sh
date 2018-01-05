@@ -308,7 +308,7 @@ install_log4cxx10(){
     rm -rf apache-log4cxx-0.10.0*
     git clone https://github.com/slkwyy/apache-log4cxx-0.10.0.git
     cd apache-log4cxx-0.10.0
-    ./configure --prefix=$PREFIX_DIR --with-apr=$PREFIX_DIR --with-apr-util=$PREFIX_DIR
+    PKG_CONFIG_PATH=${PREFIX_DIR}/lib/pkgconfig ./configure --prefix=$PREFIX_DIR --with-apr=$PREFIX_DIR --with-apr-util=$PREFIX_DIR
     make && make install
     cd $CURRENT_DIR
   else
