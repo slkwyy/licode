@@ -217,39 +217,10 @@ install_libsrtp(){
   fi
 }
 
-install_boost_with_source(){
-  sudo yum install python-devel
-  if [ -d $LIB_DIR ]; then
-    cd $LIB_DIR
-    rm -rf boost*
-    git config --global core.autocrlf input
-    git clone --recursive https://github.com/boostorg/boost.git
-    cd boost
-    ./bootstrap.sh --prefix=$PREFIX_DIR
-    ./b2 install --prefix=$PREFIX_DIR
-    cd $CURRENT_DIR
-  else
-    mkdir -p $LIB_DIR
-    install_boost_with_source
-  fi
-}
-
 install_boost(){
-  sudo yum install python-devel
-  if [ -d $LIB_DIR ]; then
-    cd $LIB_DIR
-    rm -rf boost*
-    git config --global core.autocrlf input
-    git clone --recursive https://github.com/boostorg/boost.git
-    cd boost
-    ./bootstrap.sh
-    ./b2
-    ./b2 install
-    cd $CURRENT_DIR
-  else
-    mkdir -p $LIB_DIR
-    install_boost
-  fi
+  sudo yum remove boost boost-devel
+  sudo wget http://repo.enetres.net/enetres.repo -O /etc/yum.repos.d/enetres.repo
+  sudo yum install boost-devel
 }
 
 install_nasm(){
@@ -337,9 +308,11 @@ install_log4cxx10(){
 install_rabbitmq(){
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
+    rm -r erlang*
     wget http://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm
     sudo rpm -Uvh erlang-solutions-1.0-1.noarch.rpm
     sudo yum install erlang
+    rm -r rabbitmq-server*
     wget https://www.rabbitmq.com/releases/rabbitmq-server/v3.6.1/rabbitmq-server-3.6.1-1.noarch.rpm
     sudo rpm --import https://www.rabbitmq.com/rabbitmq-signing-key-public.asc
     sudo yum install rabbitmq-server-3.6.1-1.noarch.rpm
@@ -353,6 +326,7 @@ install_rabbitmq(){
 install_mongodb(){
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
+    rm -r centos_repo*
     git clone https://github.com/slkwyy/centos_repo.git
     cp ./centos_repo/mongodb-org-3.6.repo /etc/yum.repos.d/
     sudo yum install -y mongodb-org
@@ -386,6 +360,7 @@ cleanup(){
     rm -r erlang*
     rm -r rabbitmq-server*
     rm -r centos_repo*
+    rm -r boost*
     cd $CURRENT_DIR
   fi
 }
