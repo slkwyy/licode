@@ -73,7 +73,6 @@ install_yum_deps(){
   npm install webpack gulp gulp-eslint@3 run-sequence webpack-stream google-closure-compiler-js del gulp-sourcemaps script-loader expose-loader
   sudo yum install git make python-devel cmake
   sudo yum install curl wget
-  sudo yum install boost boost-devel
   install_gcc5_gplusplus5
   install_rabbitmq
   install_mongodb
@@ -218,7 +217,7 @@ install_libsrtp(){
   fi
 }
 
-install_boost(){
+install_boost_with_source(){
   sudo yum install python-devel
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
@@ -228,6 +227,24 @@ install_boost(){
     cd boost
     ./bootstrap.sh --prefix=$PREFIX_DIR
     ./b2 install --prefix=$PREFIX_DIR
+    cd $CURRENT_DIR
+  else
+    mkdir -p $LIB_DIR
+    install_boost_with_source
+  fi
+}
+
+install_boost(){
+  sudo yum install python-devel
+  if [ -d $LIB_DIR ]; then
+    cd $LIB_DIR
+    rm -rf boost*
+    git config --global core.autocrlf input
+    git clone --recursive https://github.com/boostorg/boost.git
+    cd boost
+    ./bootstrap.sh
+    ./b2
+    ./b2 install
     cd $CURRENT_DIR
   else
     mkdir -p $LIB_DIR
@@ -383,6 +400,7 @@ install_openssl
 install_libnice
 install_libsrtp
 install_log4cxx10
+install_boost
 
 install_opus
 if [ "$ENABLE_GPL" = "true" ]; then
