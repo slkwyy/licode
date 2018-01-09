@@ -66,14 +66,14 @@ install_nvm_node() {
 }
 
 install_yum_deps(){
+  sudo yum install git
   install_nvm_node
   nvm use
   npm install
   npm install -g node-gyp gulp-cli
   npm install webpack gulp gulp-eslint@3 run-sequence webpack-stream google-closure-compiler-js del gulp-sourcemaps script-loader expose-loader
-  sudo yum install git make python-devel cmake
+  sudo yum install gcc gcc-c++ make python-devel cmake
   sudo yum install curl wget
-  install_gcc5_gplusplus5
   install_rabbitmq
   install_mongodb
   sudo chown -R `whoami` ~/.npm ~/tmp/ || true
@@ -383,6 +383,8 @@ if [ "$ENABLE_GPL" = "true" ]; then
 else
   install_mediadeps_nogpl
 fi
+
+install_gcc5_gplusplus5
 
 if [ "$CLEANUP" = "true" ]; then
   echo "Cleaning up..."
