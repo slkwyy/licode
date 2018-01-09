@@ -155,8 +155,8 @@ install_opus(){
 }
 
 install_mediadeps(){
-  install_opus
   install_nasm
+  install_opus
   install_x264
   sudo yum install libvpx-devel
   if [ -d $LIB_DIR ]; then
@@ -180,8 +180,8 @@ install_mediadeps(){
 }
 
 install_mediadeps_nogpl(){
-  install_opus
   install_nasm
+  install_opus
   sudo yum install libvpx-devel
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
