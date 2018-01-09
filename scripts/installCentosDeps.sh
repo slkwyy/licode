@@ -117,7 +117,6 @@ install_openssl(){
 }
 
 install_libnice(){
-  sudo yum install libtool
   sudo yum install pkgconfig
   sudo yum install glib2 glib2-devel
   if [ -d $LIB_DIR ]; then
@@ -375,6 +374,7 @@ mkdir -p $PREFIX_DIR
 
 install_yum_deps
 check_proxy
+source /opt/rh/devtoolset-4/enable
 install_openssl
 install_libnice
 install_libsrtp
