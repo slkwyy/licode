@@ -72,10 +72,12 @@ install_yum_deps(){
   npm install
   npm install -g node-gyp gulp-cli
   npm install webpack gulp gulp-eslint@3 run-sequence webpack-stream google-closure-compiler-js del gulp-sourcemaps script-loader expose-loader
-  sudo yum install gcc gcc-c++ make python-devel cmake
+  install_gcc5_gplusplus5
+  sudo yum install make python-devel cmake
   sudo yum install curl wget
   install_rabbitmq
   install_mongodb
+  install_boost
   sudo chown -R `whoami` ~/.npm ~/tmp/ || true
 }
 
@@ -189,7 +191,7 @@ install_mediadeps_nogpl(){
       curl -O -L https://github.com/libav/libav/archive/v11.1.tar.gz
       tar -zxvf v11.1.tar.gz
       cd libav-11.1
-      PKG_CONFIG_PATH=${PREFIX_DIR}/lib/pkgconfig ./configure --prefix=$PREFIX_DIR --enable-shared --enable-gpl --enable-libvpx --enable-libopus --disable-doc
+      PKG_CONFIG_PATH=${PREFIX_DIR}/lib/pkgconfig ./configure --prefix=$PREFIX_DIR --enable-shared --enable-gpl --enable-libvpx --enable-libopus --disable-doc --disable-asm
       make $FAST_MAKE -s V=0
       make install
     else
@@ -339,8 +341,9 @@ install_mongodb(){
 }
 
 install_gcc5_gplusplus5(){
-  yum install centos-release-scl-rh
-  yum install devtoolset-4-gcc devtoolset-4-gcc-c++
+  sudo yum remove gcc gcc-c++
+  sudo yum install centos-release-scl-rh
+  sudo yum install devtoolset-4-gcc devtoolset-4-gcc-c++
   source /opt/rh/devtoolset-4/enable
 }
 
@@ -376,7 +379,6 @@ install_openssl
 install_libnice
 install_libsrtp
 install_log4cxx10
-install_boost
 
 install_opus
 if [ "$ENABLE_GPL" = "true" ]; then
@@ -384,8 +386,6 @@ if [ "$ENABLE_GPL" = "true" ]; then
 else
   install_mediadeps_nogpl
 fi
-
-install_gcc5_gplusplus5
 
 if [ "$CLEANUP" = "true" ]; then
   echo "Cleaning up..."
