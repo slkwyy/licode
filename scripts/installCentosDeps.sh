@@ -181,6 +181,7 @@ install_mediadeps(){
 
 install_mediadeps_nogpl(){
   install_opus
+  install_nasm
   sudo yum install libvpx-devel
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
