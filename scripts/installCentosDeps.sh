@@ -72,12 +72,17 @@ install_yum_deps(){
   npm install
   npm install -g node-gyp gulp-cli
   npm install webpack gulp gulp-eslint@3 run-sequence webpack-stream google-closure-compiler-js del gulp-sourcemaps script-loader expose-loader
-  install_gcc5_gplusplus5
   sudo yum install make python-devel cmake
   sudo yum install curl wget
+  sudo yum install perl
+  sudo yum install pkgconfig
+  sudo yum install glib2 glib2-devel
+  sudo yum install expat expat-devel
+  sudo yum install libvpx-devel
   install_rabbitmq
   install_mongodb
   install_boost
+  install_gcc5_gplusplus5
   sudo chown -R `whoami` ~/.npm ~/tmp/ || true
 }
 
@@ -96,7 +101,7 @@ download_openssl() {
 }
 
 install_openssl(){
-  sudo yum install perl
+#  sudo yum install perl
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
     OPENSSL_VERSION=`node -pe process.versions.openssl`
@@ -117,8 +122,8 @@ install_openssl(){
 }
 
 install_libnice(){
-  sudo yum install pkgconfig
-  sudo yum install glib2 glib2-devel
+#  sudo yum install pkgconfig
+#  sudo yum install glib2 glib2-devel
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
     if [ ! -f ./libnice-0.1.4.tar.gz ]; then
@@ -159,7 +164,7 @@ install_mediadeps(){
   install_nasm
   install_opus
   install_x264
-  sudo yum install libvpx-devel
+#  sudo yum install libvpx-devel
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
     if [ ! -f ./v11.1.tar.gz ]; then
@@ -183,7 +188,7 @@ install_mediadeps(){
 install_mediadeps_nogpl(){
   install_nasm
   install_opus
-  sudo yum install libvpx-devel
+ # sudo yum install libvpx-devel
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
     if [ ! -f ./v11.1.tar.gz ]; then
@@ -220,7 +225,6 @@ install_libsrtp(){
 }
 
 install_boost(){
-  sudo yum remove boost boost-devel
   sudo wget http://repo.enetres.net/enetres.repo -O /etc/yum.repos.d/enetres.repo
   sudo yum install boost-devel
 }
@@ -275,7 +279,7 @@ install_apr(){
 
 install_aprutil(){
   install_apr
-  sudo yum install expat expat-devel
+#  sudo yum install expat expat-devel
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
     rm -rf apr-util-1.6.1*
@@ -325,6 +329,11 @@ install_rabbitmq(){
   fi
 }
 
+start_rabbitmq(){
+  chkconfig rabbitmq-server on
+  /sbin/service rabbitmq-server start
+}
+
 install_mongodb(){
   if [ -d $LIB_DIR ]; then
     cd $LIB_DIR
@@ -344,6 +353,12 @@ install_gcc5_gplusplus5(){
   sudo yum install centos-release-scl-rh
   sudo yum install devtoolset-4-gcc devtoolset-4-gcc-c++
   source /opt/rh/devtoolset-4/enable
+}
+
+stop_iptables(){
+  /etc/init.d/iptables stop
+  chkconfig iptables off
+chkconfig --list iptables
 }
 
 cleanup(){
@@ -374,13 +389,13 @@ mkdir -p $PREFIX_DIR
 
 install_yum_deps
 check_proxy
+
 source /opt/rh/devtoolset-4/enable
 install_openssl
 install_libnice
 install_libsrtp
 install_log4cxx10
 
-install_opus
 if [ "$ENABLE_GPL" = "true" ]; then
   install_mediadeps
 else
@@ -391,3 +406,6 @@ if [ "$CLEANUP" = "true" ]; then
   echo "Cleaning up..."
   cleanup
 fi
+
+stop_iptables
+start_rabbitmq
