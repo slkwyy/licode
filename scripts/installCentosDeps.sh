@@ -349,7 +349,7 @@ install_mongodb(){
 }
 
 install_gcc5_gplusplus5(){
-  sudo yum remove gcc gcc-c++
+#  sudo yum remove gcc gcc-c++
   sudo yum install centos-release-scl-rh
   sudo yum install devtoolset-4-gcc devtoolset-4-gcc-c++
   source /opt/rh/devtoolset-4/enable
@@ -358,7 +358,7 @@ install_gcc5_gplusplus5(){
 stop_iptables(){
   /etc/init.d/iptables stop
   chkconfig iptables off
-chkconfig --list iptables
+  chkconfig --list iptables
 }
 
 cleanup(){
