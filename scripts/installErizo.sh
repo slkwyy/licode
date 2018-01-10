@@ -51,6 +51,7 @@ check_result() {
 }
 
 install_erizo(){
+  source /opt/rh/devtoolset-4/enable
   echo 'Installing erizo...'
   cd $ROOT/erizo
   ./generateProject.sh
